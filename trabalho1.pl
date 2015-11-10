@@ -90,7 +90,7 @@ comparaNivel2Igual([_,_,_,_,_,C10,C11,_],S1,S2,Posicao,Pesagem) :-
 
 
 %Grupo_Menor_Maior
-comparaNivel2Menor([_,_,_,C5,C6,_,_,_],S1,S2,Posicao,Pesagem) :- 
+comparaNivel2Menor([_,_,_,_,C5,C6,_,_],S1,S2,Posicao,Pesagem) :- 
     comparaMaior(S1,S2),
     pesagem([C5],[C6],SN1,SN2),
     comparaFinal(SN1,SN2,Posicao,Pesagem,[5,4,6],['pesado','leve','pesado']).
