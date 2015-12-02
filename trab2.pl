@@ -47,7 +47,6 @@ verifica_blocos([H|T]):-
 	sub_string(H,1,_,1,Res),
 	split_string(Res,"#"," ",L2),
 	verifica(Res,L2),
-	verificaF(Res,L2),
 	verifica_blocos(T).
 
 
@@ -72,8 +71,20 @@ verifica_total(Res,[H|T],X):-
 	Res \= "",
 	X == Res,
 	ver(X),
-	
 	verifica_total(Res,[H|T],X).
 
+verifica_total(Res,[H|T],X):-
+	sub_string(H,1,_,0,Res),
+	Res \= "",
+	X == Res,
+	fal(X).
 
+verifica_total(Res,[H|T],X):-
+	sub_string(H,1,_,0,Res),
+	Res \= "",
+	X \= Res,
+	verifica_total(Res,[H|T],X).
 
+verifica_total(Res,[H|T],X):-
+	X \= H,
+	verifica_total(Res,[H|T],X).
