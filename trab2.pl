@@ -14,9 +14,10 @@ resolve_bloco([H|T]):-
 	sub_string(H,1,_,1,Res),
 	split_string(Res,"#"," ",L2),
 	atribui_elementos(L2),
-	verifica_sat([H|T])
+	verifica_sat([H|T]).
 
 atribui_elementos([]).
+
 atribui_elementos([H|T]):-
 	sub_string(H,1,_,0,Res),
 	Res \= "",
@@ -27,30 +28,27 @@ atribui_elementos([H|T]):-
 	assert_bt(elemento(H)),
 	atribui_elementos(T).
 
-atribui_verdade():-
+atribui_verdade:-
 	elemento(X),
 	assert_bt(ver(X)).
 
-atribui_falso():-
+atribui_falso:-
 	elemento(X),
 	assert_bt(fal(X)).
 
 verifica_sat([H|T]):-
-	atribui_verdade(),
-	verifica_blocos([H|T])
+	atribui_verdade,
+	verifica_blocos([H|T]).
 
 verifica_sat([H|T]):-
-	atribui_falso(),
-	verifica_blocos([H|T])
+	atribui_falso,
+	verifica_blocos([H|T]).
 
 verifica_blocos([H|T]):-
 	sub_string(H,1,_,1,Res),
 	split_string(Res,"#"," ",L2),
 	verifica(Res,L2),
 	verifica_blocos(T).
-
-
-
 
 verifica(Res,[H|T]):-
 	ver(X),
