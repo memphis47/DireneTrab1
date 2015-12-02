@@ -48,7 +48,8 @@ verifica_blocos([H|T]):-
 	sub_string(H,1,_,1,Res),
 	split_string(Res,"#"," ",L2),
 	verifica(Res,L2),
-	verifica_blocos(T).
+	verifica_blocos(T),
+	verifica_resto().
 
 verifica(Res,[H|T]):-
 	ver(X),
