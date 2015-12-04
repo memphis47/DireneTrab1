@@ -49,7 +49,7 @@ verifica_blocos([H|T]):-
 	split_string(Res,"#"," ",L2),
 	verifica(Res,L2),
 	verifica_blocos(T),
-	verifica_resto().
+	verifica_resto.
 
 verifica(Res,[H|T]):-
 	ver(X),
@@ -62,8 +62,9 @@ verifica(Res,[H|T]):-
 verifica_total(Res,[H|T],X):-
 	X == H.
 
-verifica_total(Res,[],_):-
-	assert_bt(clausulas_idefinidas(Res)).
+verifica_total(Res,[],X):-
+	assert_bt(clausulas_idefinidas(Res)),
+	retract(elemento(X)).
 
 verifica_total(Res,[H|T],X):-
 	sub_string(H,1,_,0,Res),
@@ -87,3 +88,27 @@ verifica_total(Res,[H|T],X):-
 verifica_total(Res,[H|T],X):-
 	X \= H,
 	verifica_total(Res,[H|T],X).
+
+
+verifica_resto:-
+	findall(X,clausulas_idefinidas(X), L), %supostamente retorna todas as clausulas_idefinidas
+	length(L,TAM),
+	TAM > 0,
+	findall(X,clausulas_idefinidas(X), LE), %supostamente retorna todas as clausulas_idefinidas
+	length(LE,TAME),
+	TAME > 0,
+	verifica_sat(L).
+
+verifica_resto:-
+	findall(X,clausulas_idefinidas(X), LE), %supostamente retorna todas as clausulas_idefinidas
+	length(LE,TAME),
+	TAME > 0,
+	findall(X,clausulas_idefinidas(X), L), %supostamente retorna todas as clausulas_idefinidas
+	length(L,TAM),
+	TAM =:= 0,
+	fail.
+
+verifica_resto:-
+	findall(X,clausulas_idefinidas(X), LE), %supostamente retorna todas as clausulas_idefinidas
+	length(LE,TAME),
+	TAME =:= 0.
