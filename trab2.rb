@@ -1,6 +1,7 @@
 $elementos = Array.new
 $verdade = Array.new
 $falso = Array.new
+$inst = 0
 
 def getVariaveis(sat)  
 	sat.each do|cls|
@@ -36,7 +37,9 @@ def satTeste(elementos,pending)
 end
 
 def verifyTrue(cls,elemento)
-	$falso.delete(elemento)
+	if $falso.delete(elemento) != nil
+		$inst +=1
+	end
 	$verdade.push(elemento)
 	aux = cls.dup
 	cls.each do |clauses|
@@ -55,7 +58,9 @@ def verifyTrue(cls,elemento)
 end
 
 def verifyFalse(cls,elemento)
-	$verdade.delete(elemento)
+	if $verdade.delete(elemento) != nil
+		$inst +=1
+	end
 	$falso.push(elemento)
 	aux = cls.dup
 	cls.each do |clauses|
@@ -84,12 +89,19 @@ text.each_line do |entrada|
 	
 	elementosArray = $elementos
 	
-	
+	start = Time.now
 	if satTeste(elementosArray,sat)
-		puts "Sat Verdadeiro"
+		puts "Sat"
 	else
-		puts "Sat Falso"
+		puts "Unsat"
 	end
+	finish = Time.now
+	
+	diff = finish - start
+	
+	puts "Tempo de execucao = %3.4f segundo(s)." % diff
+	
+	puts "Instanciacoes = "+ $inst.to_s
 	
 	
 	$elementos = Array.new
@@ -99,5 +111,6 @@ text.each_line do |entrada|
 	sat = ""
 	
 	line_num+=1
+	$inst = 0
 end
 
