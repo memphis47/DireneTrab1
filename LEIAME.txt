@@ -1,0 +1,14 @@
+Para executar:
+
+    $ ./rrc10.rb
+
+Os casos de teste do sat estão no arquivo sat.in
+
+Caso queira adicionar casos de testes:
+    Colocar dentro do arquivo sem aspas e sem a chamada sat, apenas a função a ser testada
+    Exemplo de como ser passada:
+    (x1#x2#x3)&(x2#x3#x4)&(x3#x4#x5)&(x4#x5#x6)&(x5#x6#x7)&(x6#x7#x8)&(x7#x8#x9)&(x8#x9#x10)
+    
+Dentro do arquivo já se encontra os 11 casos de testes passados por email.
+
+Sera mostrado na tela o resultado de cada execução.

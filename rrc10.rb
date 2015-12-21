@@ -80,8 +80,9 @@ line_num=1
 text=File.open('sat.in').read
 text=text.gsub(/(\r|\n)+/,"\n")
 text.each_line do |entrada|
+	puts ""
 	entrada = entrada.delete(' ')
-  	puts "Testando sat instancia:" + line_num.to_s
+  	puts "Testando sat instancia " + line_num.to_s
 	entrada =  entrada.tr("\n",'')
 	sat = entrada.split('&')
 	
