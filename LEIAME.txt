@@ -1,6 +1,6 @@
 Para executar:
 
-    $ ./rrc10.rb
+    $ ruby rrc10.rb
 
 Os casos de teste do sat estão no arquivo sat.in
 
