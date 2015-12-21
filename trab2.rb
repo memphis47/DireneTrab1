@@ -1,4 +1,6 @@
 $elementos = Array.new
+$verdade = Array.new
+$falso = Array.new
 
 def getVariaveis(sat)  
 	sat.each do|cls|
@@ -15,12 +17,12 @@ def getVariaveis(sat)
 end
 
 def satTeste(elementos,pending)
-	if elementos.empty? && !pending.empty?
+	if elementos.empty? and !pending.empty?
 		return false
 	elsif pending.empty?
 		return true
 	else		
-		eleAux = elementos
+		eleAux = elementos.dup
 		head = elementos.first
 		elementos.shift
 		if(!satTeste(elementos,verifyTrue(pending,head)))
@@ -34,43 +36,68 @@ def satTeste(elementos,pending)
 end
 
 def verifyTrue(cls,elemento)
+	$falso.delete(elemento)
+	$verdade.push(elemento)
 	aux = cls.dup
 	cls.each do |clauses|
 		newclausulas = clauses.tr('()', '')
+		
 		negelem = "~"+elemento
 		newclausulas.slice! negelem
-		if newclausulas.include? elemento
-		   aux.delete(clauses)
-		end
+		ncls = newclausulas.split('#')
+		ncls.each do |vars|
+			if vars.eql? elemento
+				aux.delete(clauses)
+			end
+		end	
 	end
 	return aux
 end
 
 def verifyFalse(cls,elemento)
-	aux = cls
+	$verdade.delete(elemento)
+	$falso.push(elemento)
+	aux = cls.dup
 	cls.each do |clauses|
 		newclausulas = clauses.tr('()', '')
-		if newclausulas.include? '~'+elemento
-		   aux.delete(clauses)
-		end
+		ncls = newclausulas.split('#')
+		ncls.each do |vars|
+			if vars.eql? '~'+elemento
+				aux.delete(clauses)
+			end
+		end	
 	end
 	return aux
 end
 
 
-entrada = ARGV[0]
-puts "Sat a ser verificado:" 
-puts entrada
-
-sat = entrada.split('&')
-
-getVariaveis(sat)
-
-elementosArray = $elementos
-
-if satTeste(elementosArray,sat)
-	puts "Sat Verdadeiro"
-else
-	puts "Sat Falso"
+line_num=1
+text=File.open('sat.in').read
+text=text.gsub(/(\r|\n)+/,"\n")
+text.each_line do |entrada|
+	entrada = entrada.delete(' ')
+  	puts "Testando sat instancia:" + line_num.to_s
+	entrada =  entrada.tr("\n",'')
+	sat = entrada.split('&')
+	
+	getVariaveis(sat)
+	
+	elementosArray = $elementos
+	
+	
+	if satTeste(elementosArray,sat)
+		puts "Sat Verdadeiro"
+	else
+		puts "Sat Falso"
+	end
+	
+	
+	$elementos = Array.new
+	
+	elementosArray = nil
+	
+	sat = ""
+	
+	line_num+=1
 end
 
